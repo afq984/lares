@@ -118,19 +118,19 @@ mod tests {
 
 fn guess<'a>(words: &'a Vec<&str>, candidates: &Vec<&str>) -> &'a str {
     let mut best_guess: &'a str = &words[0];
-    let mut best_exp = f64::MAX;
+    let mut best_exp = u32::MAX;
 
     for guess in words.iter() {
-        let mut groups: Vec<u64> = vec![0; 243];
+        let mut groups: Vec<u32> = vec![0; 243];
         for assumed_answer in candidates.iter() {
             if guess != assumed_answer {
                 groups[compare(assumed_answer, guess) as usize] += 1;
             }
         }
 
-        let mut exp = 0.;
+        let mut exp = 0;
         for group in groups {
-            exp += (group as f64).powf(2.5);
+            exp += group * group;
         }
 
         if exp < best_exp {
